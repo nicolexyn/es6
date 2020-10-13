@@ -1,119 +1,106 @@
 // *****************************************************
-// Simbolos y propiedades
-console.log("******* Simbolos y propiedades*******");
+// Introduccion a los Sets
+console.log("******* Introduccion a los Sets*******");
 // *****************************************************
 
-let primerNombre = Symbol('primer nombre');
-let segundoNombre = Symbol('segundo nombre');
-
-let persona = {
-  [segundoNombre]: 'Olexyn'
-};
-
-persona[primerNombre] = 'Nicolas';
-
-console.log(persona[primerNombre]);
-console.log(persona[segundoNombre]);
-console.log(primerNombre);
-console.log(segundoNombre);
-
-let simbolo1 = Symbol('simbolo');
-let simbolo2 = Symbol('simbolo');
-
-console.log(simbolo1 == simbolo2); // false
-console.log(simbolo1 === simbolo2); // false
-console.log(Object.is(simbolo1, simbolo2)); // false
-
-console.log(typeof primerNombre);
-
-// console.log(' Mi simbolo: ' + primerNombre); // Cannot convert a Symbol value to a string
-
+// Los Sets son una lista ordenada de valores sin duplicados
+// permiten un rapido acceso a la data q contienen
 
 
 // *****************************************************
-// Compartiendo simbolos - Symbol.for() y Symbol.keyFor() 
-console.log("******* Compartiendo simbolos - Symbol.for() y Symbol.keyFor() *******");
+// Creando Sets - Agregando items y buscando elementos 
+console.log("******* Creando Sets - Agregando items y buscando elementos *******");
 // *****************************************************
 
-let userID = Symbol.for('userID');
-let objeto = {};
+// let items = new Set();
 
-objeto[userID] = '12345';
+// items.add(10);
+// items.add(11);
+// items.add(8);
+// items.add(7);
+// items.add(7); // ignore
+// items.add('7'); // Object.is(7, '7') -> false entonces lo agrega
+// items.add('7'); // ignore
+// items.add(7); // ignore
 
-console.log(objeto[userID]);
-console.log(userID);
-
-
-let userID2 = Symbol.for('userID');
-
-console.log(userID == userID2); // true
-console.log(userID === userID2); // true
-console.log(Object.is(userID, userID2)); // true
-
-console.log(objeto[userID2]);
-console.log(userID2);
+// console.log(items.size); // 5
+// console.log(items); // Set(5) {10, 11, 8, 7, "7"}
 
 
+// ******************************************************
 
-let id_ = Symbol.for('id unico');
-console.log(Symbol.keyFor(id_));
+let items = new Set([1,2,3,4,5,6,7,7,7,7,7,7,7,7,7]);
 
-let id2_ = Symbol.for('id unico');
-console.log(Symbol.keyFor(id2_));
+console.log(items.size); // 7
+console.log(items); // Set(7) {1, 2, 3, 4, 5, 6, 7}
 
+console.log(items.has(7)); // true
+console.log(items.has('7')); // false
 
 
 
 // *****************************************************
-// Coercion de los simbolos 
-console.log("******* Coercion de los simbolos *******");
+// Remover items de un Set 
+console.log("******* Remover items de un Set *******");
 // *****************************************************
 
+let items2 = new Set([1,2,3,4,5]);
 
-let id = Symbol.for('id');
-let numero = 10;
-let texto = '10';
-let bool = true;
-let NotAn = NaN;
+console.log(items2.size); // 5
 
-console.log(numero + texto); // 1010
-console.log(numero + Number(texto)); // 20
-console.log(numero + NotAn); // NaN
-console.log(bool + bool); // 2
+items2.delete(3);
+console.log(items2.size); // 4
+console.log(items2); // Set(4) {1, 2, 4, 5}
 
-// console.log(texto + id); // Cannot convert a Symbol value to a string
 
-console.log('Mi simbolo es: ' + String(id)); // Mi simbolo es: Symbol(id)
-console.log('Mi simbolo es: ' + Symbol.keyFor(id)); // Mi simbolo es: id
+items2.clear();
+console.log(items2.size); // 0
+console.log(items2); // Set(0) {}
 
 
 
 // *****************************************************
-// Recuperando las propiedades simbolo 
-console.log("******* Recuperando las propiedades simbolo *******");
+// forEach() - en los sets 
+console.log("******* forEach() - en los sets *******");
 // *****************************************************
 
-let id3 = Symbol.for('id');
-let activo = Symbol.for('activo');
+let personas = new Set(['Fernando', 'Maria', 'Susana']);
 
-let persona_ = {
-  [id3]: '123',
-  [activo]: true,
-  ['codigo']: 'XG123',
-  nombre: 'Nicolas',
-  apellido: 'Olexyn',
-  edad: 34
-};
 
-console.log(Object.keys(persona));
+personas.forEach(function(valor, llave, setOriginal) {
+  console.log(valor, llave, setOriginal);
+  console.log(personas === setOriginal); // true
+});
 
-for(key in persona_) { // no se ven los Symbols con el for in
-  console.log(key, persona_[key]);
+
+
+// *****************************************************
+// Convertir un Set en Array 
+console.log("******* Convertir un Set en Array *******");
+// *****************************************************
+
+let numeros = [45,4,8,6,65,4,2,8,9];
+
+// let setNumeros = new Set(numeros);
+
+// console.log(setNumeros);
+
+// let arrayNumeros = [...setNumeros];
+
+let arrayNumeros = eliminaDuplicados(numeros);
+
+console.log(arrayNumeros);
+
+// function eliminaDuplicados(items) {
+//   let set = new Set(items);
+//   return [...set];
+// }
+function eliminaDuplicados(items) {
+  return [... new Set(items)];
 }
 
-let simbolos = Object.getOwnPropertySymbols(persona_);
-console.log(simbolos);
 
-for(i in simbolos) {
-  console.log(simbolos[i], Symbol.keyFor(simbolos[i]));
-}
+
+let numeros3 = new Set([45,4,8,6,65,4,2,8,9]);
+
+console.log(numeros3);
